@@ -1,0 +1,33 @@
+diff --git a/build/fork/getPathFromState.js b/build/fork/getPathFromState.js
+index 46b862d..9f8dea2 100644
+--- a/build/fork/getPathFromState.js
++++ b/build/fork/getPathFromState.js
+@@ -99,6 +99,7 @@ function getPathDataFromState(state, options) {
+     }
+     const configs = cachedNormalizedConfigs[1];
+     let path = '/';
++    let query = '';
+     let current = state;
+     const allParams = {};
+     while(current){
+@@ -181,16 +182,16 @@ function getPathDataFromState(state, options) {
+             }
+             delete focusedParams['#'];
+             focusedParams = (0, _navigationParams.removeInternalExpoRouterParams)(focusedParams);
+-            const query = (0, _queryParams.stringifySearchParams)(focusedParams);
+-            if (query) {
+-                path += `?${query}`;
+-            }
++            query = (0, _queryParams.stringifySearchParams)(focusedParams);
+         }
+         current = route.state;
+     }
+     // Remove multiple as well as trailing slashes
+     path = path.replace(/\/+/g, '/');
+     path = path.length > 1 ? path.replace(/\/$/, '') : path;
++    if (query) {
++        path += `?${query}`;
++    }
+     // Include the root path if specified
+     if (options?.path) {
+         path = joinPaths(options.path, path);
